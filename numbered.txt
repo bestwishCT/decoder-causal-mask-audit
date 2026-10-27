@@ -1,0 +1,59 @@
+SOURCE P3 PDF physical page 3
+1: Figure 1: The Transformer - model architecture.
+2: The Transformer follows this overall architecture using stacked self-attention and point-wise, fully
+3: connected layers for both the encoder and decoder, shown in the left and right halves of Figure 1,
+4: respectively.
+5: 3.1 Encoder and Decoder Stacks
+6: Encoder: The encoder is composed of a stack of N = 6 identical layers. Each layer has two
+7: sub-layers. The first is a multi-head self-attention mechanism, and the second is a simple, position-
+8: wise fully connected feed-forward network. We employ a residual connection [11] around each of
+9: the two sub-layers, followed by layer normalization [ 1]. That is, the output of each sub-layer is
+10: LayerNorm(x + Sublayer(x)), where Sublayer(x) is the function implemented by the sub-layer
+11: itself. To facilitate these residual connections, all sub-layers in the model, as well as the embedding
+12: layers, produce outputs of dimension dmodel = 512.
+13: Decoder: The decoder is also composed of a stack of N = 6 identical layers. In addition to the two
+14: sub-layers in each encoder layer, the decoder inserts a third sub-layer, which performs multi-head
+15: attention over the output of the encoder stack. Similar to the encoder, we employ residual connections
+16: around each of the sub-layers, followed by layer normalization. We also modify the self-attention
+17: sub-layer in the decoder stack to prevent positions from attending to subsequent positions. This
+18: masking, combined with fact that the output embeddings are offset by one position, ensures that the
+19: predictions for position i can depend only on the known outputs at positions less than i.
+20: 3.2 Attention
+21: An attention function can be described as mapping a query and a set of key-value pairs to an output,
+22: where the query, keys, values, and output are all vectors. The output is computed as a weighted sum
+23: 3
+
+SOURCE P5 PDF physical page 5
+1: output values. These are concatenated and once again projected, resulting in the final values, as
+2: depicted in Figure 2.
+3: Multi-head attention allows the model to jointly attend to information from different representation
+4: subspaces at different positions. With a single attention head, averaging inhibits this.
+5: MultiHead(Q, K, V ) = Concat(head 1, ..., headh)W O
+6: where headi = Attention(QW Q
+7: i , KW K
+8: i , V W V
+9: i )
+10: Where the projections are parameter matricesW Q
+11: i ∈ Rdmodel×dk, W K
+12: i ∈ Rdmodel×dk, W V
+13: i ∈ Rdmodel×dv
+14: and W O ∈ Rhdv×dmodel.
+15: In this work we employ h = 8 parallel attention layers, or heads. For each of these we use
+16: dk = dv = dmodel/h = 64. Due to the reduced dimension of each head, the total computational cost
+17: is similar to that of single-head attention with full dimensionality.
+18: 3.2.3 Applications of Attention in our Model
+19: The Transformer uses multi-head attention in three different ways:
+20: • In "encoder-decoder attention" layers, the queries come from the previous decoder layer,
+21: and the memory keys and values come from the output of the encoder. This allows every
+22: position in the decoder to attend over all positions in the input sequence. This mimics the
+23: typical encoder-decoder attention mechanisms in sequence-to-sequence models such as
+24: [38, 2, 9].
+25: • The encoder contains self-attention layers. In a self-attention layer all of the keys, values
+26: and queries come from the same place, in this case, the output of the previous layer in the
+27: encoder. Each position in the encoder can attend to all positions in the previous layer of the
+28: encoder.
+29: • Similarly, self-attention layers in the decoder allow each position in the decoder to attend to
+30: all positions in the decoder up to and including that position. We need to prevent leftward
+31: information flow in the decoder to preserve the auto-regressive property. We implement this
+32: inside of scaled dot-product attention by masking out (setting to −∞) all values in the input
+33: of the softmax which correspond to illegal connections. See Figure 2.

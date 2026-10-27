@@ -1,0 +1,6 @@
+论文《Attention Is All You Need》(arXiv:1706.03762v7)阅读问题：能看自己为什么仍然自回归：右移目标与因果掩码。只依据给定证据；教学推导标为推导，未定义或未实测须说明。
+D1：第3页称预测 i 只依赖小于 i 的输出，第5页却允许关注当前位置；用右移目标输入解释二者为何一致。
+D2：区分 decoder self-attention、encoder self-attention、encoder-decoder attention 的 Q/K/V 来源与可见范围。
+D3：教学例目标[A,B,EOS]、输入[BOS,A,B]，写出按行query按列key的允许矩阵；等logits时各行权重是什么？屏蔽值为何在softmax前设负无穷？
+D4：把未来 logits 设0是否等于屏蔽？把softmax后未来权重置0但不归一化会怎样？该掩码是否意味着训练必须逐token串行？
+输出合法JSON对象，decisions数组依次D1-D4，每项含id、answer、evidence数组(每项source_id、start_line、end_line)、limitations。source_id仅允许['P3', 'P5']。行号整数无前导零。每项完整回答，保留条件，约1600中文字。

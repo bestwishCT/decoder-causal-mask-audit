@@ -1,0 +1,83 @@
+{
+  "status": "range_errors",
+  "errors": [
+    "D1:missing_field:limitations",
+    "D2:missing_field:limitations",
+    "D3:missing_field:limitations",
+    "D4:missing_field:limitations"
+  ],
+  "semantic": "not_evaluated",
+  "excerpt_count": 10,
+  "excerpts": [
+    {
+      "decision": "D1",
+      "source_id": "P3",
+      "start_line": 16,
+      "end_line": 19,
+      "text": "around each of the sub-layers, followed by layer normalization. We also modify the self-attention\nsub-layer in the decoder stack to prevent positions from attending to subsequent positions. This\nmasking, combined with fact that the output embeddings are offset by one position, ensures that the\npredictions for position i can depend only on the known outputs at positions less than i."
+    },
+    {
+      "decision": "D1",
+      "source_id": "P5",
+      "start_line": 29,
+      "end_line": 31,
+      "text": "• Similarly, self-attention layers in the decoder allow each position in the decoder to attend to\nall positions in the decoder up to and including that position. We need to prevent leftward\ninformation flow in the decoder to preserve the auto-regressive property. We implement this"
+    },
+    {
+      "decision": "D2",
+      "source_id": "P5",
+      "start_line": 19,
+      "end_line": 23,
+      "text": "The Transformer uses multi-head attention in three different ways:\n• In \"encoder-decoder attention\" layers, the queries come from the previous decoder layer,\nand the memory keys and values come from the output of the encoder. This allows every\nposition in the decoder to attend over all positions in the input sequence. This mimics the\ntypical encoder-decoder attention mechanisms in sequence-to-sequence models such as"
+    },
+    {
+      "decision": "D2",
+      "source_id": "P5",
+      "start_line": 25,
+      "end_line": 31,
+      "text": "• The encoder contains self-attention layers. In a self-attention layer all of the keys, values\nand queries come from the same place, in this case, the output of the previous layer in the\nencoder. Each position in the encoder can attend to all positions in the previous layer of the\nencoder.\n• Similarly, self-attention layers in the decoder allow each position in the decoder to attend to\nall positions in the decoder up to and including that position. We need to prevent leftward\ninformation flow in the decoder to preserve the auto-regressive property. We implement this"
+    },
+    {
+      "decision": "D2",
+      "source_id": "P3",
+      "start_line": 13,
+      "end_line": 19,
+      "text": "Decoder: The decoder is also composed of a stack of N = 6 identical layers. In addition to the two\nsub-layers in each encoder layer, the decoder inserts a third sub-layer, which performs multi-head\nattention over the output of the encoder stack. Similar to the encoder, we employ residual connections\naround each of the sub-layers, followed by layer normalization. We also modify the self-attention\nsub-layer in the decoder stack to prevent positions from attending to subsequent positions. This\nmasking, combined with fact that the output embeddings are offset by one position, ensures that the\npredictions for position i can depend only on the known outputs at positions less than i."
+    },
+    {
+      "decision": "D3",
+      "source_id": "P5",
+      "start_line": 29,
+      "end_line": 33,
+      "text": "• Similarly, self-attention layers in the decoder allow each position in the decoder to attend to\nall positions in the decoder up to and including that position. We need to prevent leftward\ninformation flow in the decoder to preserve the auto-regressive property. We implement this\ninside of scaled dot-product attention by masking out (setting to −∞) all values in the input\nof the softmax which correspond to illegal connections. See Figure 2."
+    },
+    {
+      "decision": "D3",
+      "source_id": "P3",
+      "start_line": 17,
+      "end_line": 19,
+      "text": "sub-layer in the decoder stack to prevent positions from attending to subsequent positions. This\nmasking, combined with fact that the output embeddings are offset by one position, ensures that the\npredictions for position i can depend only on the known outputs at positions less than i."
+    },
+    {
+      "decision": "D4",
+      "source_id": "P5",
+      "start_line": 32,
+      "end_line": 33,
+      "text": "inside of scaled dot-product attention by masking out (setting to −∞) all values in the input\nof the softmax which correspond to illegal connections. See Figure 2."
+    },
+    {
+      "decision": "D4",
+      "source_id": "P3",
+      "start_line": 2,
+      "end_line": 4,
+      "text": "The Transformer follows this overall architecture using stacked self-attention and point-wise, fully\nconnected layers for both the encoder and decoder, shown in the left and right halves of Figure 1,\nrespectively."
+    },
+    {
+      "decision": "D4",
+      "source_id": "P3",
+      "start_line": 17,
+      "end_line": 19,
+      "text": "sub-layer in the decoder stack to prevent positions from attending to subsequent positions. This\nmasking, combined with fact that the output embeddings are offset by one position, ensures that the\npredictions for position i can depend only on the known outputs at positions less than i."
+    }
+  ]
+}
